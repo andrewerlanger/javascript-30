@@ -22,6 +22,22 @@
 
   <style>
 
+    :root {
+      --base: #000;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -45,6 +61,21 @@
   </style>
 
   <script>
+
+    // base, spacing and blur
+    const inputs = document.querySelectorAll('.controls input')
+
+    function changeValue(event) {
+      const suffix = this.dataset.sizing || '';
+      const variableName = this.name;
+      const variableValue = this.value;
+      document.documentElement.style.setProperty(`--${variableName}`, `${variableValue}${suffix}`)
+    }
+
+    inputs.forEach(input => input.addEventListener('change', changeValue));
+    inputs.forEach(input => input.addEventListener('mousemove', changeValue));
+
+
   </script>
 
 </body>

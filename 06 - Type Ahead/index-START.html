@@ -17,6 +17,63 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+// initialize empty array for cities
+const cities = []
+
+// .fetch() returns a promise (not the data itself)
+// .then() returns the eventual result of that promise
+// .push(...object) spreads the (iterable) object into the array
+fetch(endpoint).then(blob => blob.json()).then(data => cities.push(...data));
+
+// this just adds commas to a very long number
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function displayMatches() {
+  // first find all matches using the string the user has typed in the search bar
+  const matches = findMatches(this.value, cities);
+
+  // now iterate through these matches, and return a list of <li></li> with stuff inside
+  // note: .map() is used here because .forEach() doesn't actually return anything
+  const html = matches.map(place => {
+
+    // this is just for the purpose of highlighting
+    const regex = new RegExp(this.value, 'gi');
+    const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+    const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+    return `
+        <li>
+            <span class="name">${cityName}, ${stateName}</span>
+            <span class="population">${numberWithCommas(place.population)}</span>
+        </li>
+    `
+  });
+
+  // now append the <li> html to the suggestions <ul>
+  suggestions.innerHTML = html.join('');
+}
+
+// called by displayMatches – fins the matches to display
+function findMatches(wordToMatch, cities) {
+    // ultimately return the results of this filter
+    return cities.filter(place => {
+        // within the filter: create a regex then apply it to place.city and place.state
+        const regex = new RegExp(wordToMatch, 'gi');
+        return place.city.match(regex) || place.state.match(regex);
+    });
+}
+
+// select the search box and suggestions elements
+const searchBox = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+// add both of these event listeners to the search box
+// they work well in tandem
+searchBox.addEventListener('change', displayMatches)
+searchBox.addEventListener('keyup', displayMatches)
+
 </script>
 </body>
 </html>

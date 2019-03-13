@@ -17,29 +17,53 @@
       p.style.fontSize = '50px';
     }
 
-    // Regular
-
-    // Interpolated
+    const countOneMillion = () => {
+      for (var i = 0; i < 1000000; i ++) {
+        var nothing = null;
+      }
+    };
 
     // Styled
+    console.log("%c This is red", "color: red");
 
     // warning!
+    console.warn("This is what a warning looks like");
 
     // Error :|
+    console.error("This is what an error looks like");
 
     // Info
+    console.info("For your information");
 
     // Testing
-
-    // clearing
+    console.assert(2 + 2 === 5, "That's not true");
 
     // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.group(dog.name);
+      console.log(`this dog is called ${dog.name}`);
+      console.log(`this dog is ${dog.age} years old`);
+      console.groupEnd(dog.name);
+    });
 
     // counting
+    console.count("Andrew");
+    console.count("Pear");
+    console.count("Pear");
+    console.count("Andrew");
 
     // timing
+    console.time('counting to one million');
+    countOneMillion();
+    console.timeEnd('counting to one million');
+
+    // clearing
+    console.clear;
 
   </script>
 </body>

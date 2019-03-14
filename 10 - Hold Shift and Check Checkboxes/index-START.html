@@ -96,6 +96,69 @@
   </div>
 
 <script>
+
+  function checkMultipleBoxes(item1, item2) {
+    checkboxes.forEach(checkbox => {
+      if (checkbox === item1 || checkbox === item2) {
+        inbetween = !inbetween;
+      }
+
+      if (inbetween) {
+        checkbox.checked = true;
+      }
+    });
+  }
+
+  function handleClick(event) {
+    if (this.checked && shiftPressed) {
+      checkMultipleBoxes(this, lastPressedArray[0]);
+    }
+    else {
+      // Remove from last pressed array
+      index = lastPressedArray.findIndex(item => item === this);
+      lastPressedArray.splice(index, 1);
+    }
+
+    // Add to last pressed array
+    lastPressedArray.unshift(this);
+  };
+
+  // Get all checkboxes
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+  // Initialize boolean for shiftPressed
+  let shiftPressed = false;
+
+  // Initialize last pressed array
+  const lastPressedArray = [];
+
+  // Initialize inbetween boolean
+  let inbetween = false;
+
+  // Listen for shift start
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Shift') return;
+
+    shiftPressed = true;
+  });
+
+  // Listen for shift end
+  document.addEventListener('keyup', (event) => {
+    if (event.key !== 'Shift') return;
+
+    shiftPressed = false;
+  });
+
+  // Loop through checkboxes
+  checkboxes.forEach(checkbox => {
+
+    // Add event listener for each
+    checkbox.addEventListener('click', handleClick)
+
+  });
+
+
+
 </script>
 </body>
 </html>

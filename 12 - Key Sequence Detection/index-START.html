@@ -7,6 +7,23 @@
 </head>
 <body>
 <script>
+  desiredSequence = ['a', 'n', 'd', 'r', 'e', 'w'];
+  currentSequence = [];
+
+  function handleSequence(event) {
+    currentSequence.push(event.key);
+
+    if (currentSequence.length > desiredSequence.length) {
+      currentSequence.shift();
+    }
+
+    if (desiredSequence.join() === currentSequence.join()) {
+      console.log('sequence typed');
+      cornify_add();
+    }
+  }
+
+  document.addEventListener('keydown', handleSequence);
 </script>
 </body>
 </html>
